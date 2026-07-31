@@ -1,0 +1,23 @@
+# Segredos e variáveis locais
+.env
+.env.*
+!.env.example
+
+# Java e Maven
+backend/target/
+*.class
+*.log
+
+# Node e Vite
+frontend/node_modules/
+frontend/dist/
+
+# IntelliJ IDEA e sistema operacional
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+*.tmp
+*.swp
