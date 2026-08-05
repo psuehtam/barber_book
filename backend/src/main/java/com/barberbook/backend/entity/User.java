@@ -1,4 +1,4 @@
-package com.barberbook.backend.domain.user;
+package com.barberbook.backend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -7,11 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "users")
@@ -24,45 +20,33 @@ public class User {
     @Column(nullable = false, length = 120)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, unique = true, length = 180)
     private String email;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
+    @Column(name = "password_hash", nullable = false, length = 100)
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private UserRole role;
+    private Role role;
 
     @Column(nullable = false)
-    private boolean active = true;
-
-    @Column(name = "created_at", nullable = false)
-    private OffsetDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private OffsetDateTime updatedAt;
+    private boolean active;
 
     protected User() {
     }
 
-    public User(String name, String email, String passwordHash, UserRole role) {
+    public User(
+        String name,
+        String email,
+        String passwordHash,
+        Role role
+    ) {
         this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
-    }
-
-    @PrePersist
-    private void prePersist() {
-        OffsetDateTime now = OffsetDateTime.now();
-        createdAt = now;
-        updatedAt = now;
-    }
-
-    @PreUpdate
-    private void preUpdate() {
-        updatedAt = OffsetDateTime.now();
+        this.active = true;
     }
 
     public Long getId() {
@@ -81,7 +65,7 @@ public class User {
         return passwordHash;
     }
 
-    public UserRole getRole() {
+    public Role getRole() {
         return role;
     }
 
@@ -89,11 +73,7 @@ public class User {
         return active;
     }
 
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
+    public void deactivate() {
+        this.active = false;
     }
 }
