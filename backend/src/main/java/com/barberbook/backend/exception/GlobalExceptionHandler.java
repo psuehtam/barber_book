@@ -13,6 +13,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -68,6 +69,20 @@ public class GlobalExceptionHandler {
             HttpStatus.BAD_REQUEST,
             "MALFORMED_JSON",
             "O JSON enviado está inválido.",
+            request.getRequestURI(),
+            Map.of()
+        );
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    ResponseEntity<ApiErrorResponse> handleNotFound(
+        NoResourceFoundException exception,
+        HttpServletRequest request
+    ) {
+        return build(
+            HttpStatus.NOT_FOUND,
+            "RESOURCE_NOT_FOUND",
+            "Recurso não encontrado.",
             request.getRequestURI(),
             Map.of()
         );
