@@ -1,8 +1,9 @@
-package com.barberbook.backend.domain.user;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+package com.barberbook.backend.repository;
 
 import java.util.Optional;
+
+import com.barberbook.backend.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
